@@ -42,6 +42,24 @@
     - PlushieSpaceLizard
 
 - type: loadout
+  id: PlushieSharkBlue
+  storage:
+    back:
+    - PlushieSharkBlue
+
+- type: loadout
+  id: PlushieSharkPink
+  storage:
+    back:
+    - PlushieSharkPink
+
+- type: loadout
+  id: PlushieSharkGrey
+  storage:
+    back:
+    - PlushieSharkGrey
+
+- type: loadout
   id: ThreeCandles
   dummyEntity: LoadoutDummyCandles
   storage:
