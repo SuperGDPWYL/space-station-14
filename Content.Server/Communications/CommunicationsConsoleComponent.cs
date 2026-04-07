@@ -1,6 +1,7 @@
 using Content.Server.UserInterface;
 using Content.Shared.Communications;
 using Robust.Shared.Audio;
+using Robust.Shared.Prototypes;
 
 namespace Content.Server.Communications
 {
@@ -74,5 +75,11 @@ namespace Content.Server.Communications
         /// </summary>
         [DataField]
         public bool AnnounceSentBy = true;
+
+        /// <summary>
+        /// The game rule to start when this communications console is hacked.
+        /// </summary>
+        [DataField]
+        public EntProtoId GameRuleOnHack = "SleeperAgentsInduced";
     }
 }

@@ -2,6 +2,7 @@ using Content.Server.Administration.Logs;
 using Content.Server.AlertLevel;
 using Content.Server.Chat.Systems;
 using Content.Server.DeviceNetwork.Systems;
+using Content.Server.GameTicking;
 using Content.Server.Popups;
 using Content.Server.RoundEnd;
 using Content.Server.Screens.Components;
@@ -17,6 +18,8 @@ using Content.Shared.DeviceNetwork;
 using Content.Shared.DeviceNetwork.Components;
 using Content.Shared.IdentityManagement;
 using Content.Shared.Popups;
+using Content.Shared.Traitor;
+using Content.Shared.Traitor.Components;
 using Robust.Server.GameObjects;
 using Robust.Shared.Configuration;
 
@@ -29,6 +32,7 @@ namespace Content.Server.Communications
         [Dependency] private readonly ChatSystem _chatSystem = default!;
         [Dependency] private readonly DeviceNetworkSystem _deviceNetworkSystem = default!;
         [Dependency] private readonly EmergencyShuttleSystem _emergency = default!;
+        [Dependency] private readonly GameTicker _ticker = default!;
         [Dependency] private readonly PopupSystem _popupSystem = default!;
         [Dependency] private readonly RoundEndSystem _roundEndSystem = default!;
         [Dependency] private readonly StationSystem _stationSystem = default!;
@@ -54,6 +58,9 @@ namespace Content.Server.Communications
 
             // On console init, set cooldown
             SubscribeLocalEvent<CommunicationsConsoleComponent, MapInitEvent>(OnCommunicationsConsoleMapInit);
+
+            // Comms console hacked via beacon
+            SubscribeLocalEvent<CommunicationsConsoleComponent, StructureHackedEvent>(OnHacked);
         }
 
         public override void Update(float frameTime)
@@ -331,6 +338,23 @@ namespace Content.Server.Communications
 
             _roundEndSystem.CancelRoundEndCountdown(mob, uid);
             _adminLogger.Add(LogType.Action, LogImpact.High, $"{ToPrettyString(message.Actor):player} has recalled the shuttle.");
+        }
+
+        private void OnHacked(Entity<CommunicationsConsoleComponent> ent, ref StructureHackedEvent args)
+        {
+            if (_ticker.IsGameRuleActive(ent.Comp.GameRuleOnHack))
+                return;
+
+            // globally mark all communications consoles as hacked so it doesn't even start allowing you to hack another one. this can be bypassed by building a new one, hence the previous check.
+            var query = EntityQueryEnumerator<CommunicationsConsoleComponent, BeaconHackableComponent>();
+            while (query.MoveNext(out var uid, out _, out var hack))
+            {
+                if (hack.Hacked) continue;
+                hack.Hacked = true;
+                Dirty(uid, hack);
+            }
+
+            _ticker.StartGameRule(ent.Comp.GameRuleOnHack);
         }
     }
 

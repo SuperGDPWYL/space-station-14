@@ -632,6 +632,10 @@
       - MindRoleTraitorSleeper
 
 - type: entity
+  parent: SleeperAgents
+  id: SleeperAgentsInduced # started by hacking the comms console
+
+- type: entity
   id: MassHallucinations
   parent: BaseGameRule
   components:

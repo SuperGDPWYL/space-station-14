@@ -32,6 +32,16 @@
   - type: ObjectiveLimit
     limit: 2 # there is usually only 1 of each steal objective, have 2 max for drama
 
+- type: entity
+  abstract: true
+  parent: BaseTraitorObjective
+  id: BaseTraitorSabotageObjective
+  components:
+  - type: SabotageCondition
+  - type: CodeCondition
+  - type: ObjectiveLimit
+    limit: 1
+
 # state
 
 - type: entity
@@ -353,9 +363,9 @@
     stealGroup: NukeDisk
     owner: objective-condition-steal-station
 
-# other
+# sabotage
 - type: entity
-  parent: BaseTraitorObjective
+  parent: BaseTraitorSabotageObjective
   id: HijackTradeStationObjective
   name: Hijack the Automated Trade Station.
   description: Plant a hacking beacon on one of the pallets aboard the trade station and defend it for 200 seconds as it hijacks the station.
@@ -365,12 +375,24 @@
     icon:
       sprite: Objects/Tools/hijack_beacon.rsi
       state: extraction_point
-  - type: CodeCondition
   - type: SabotageCondition
     whitelist: 
       components:
       - CargoPallet
     requireConfirmation: true
-  - type: ObjectiveLimit
-    # There is only one trade station so there should never be more than one of these objectives.
-    limit: 1
+
+- type: entity
+  parent: BaseTraitorSabotageObjective
+  id: HackCommsConsoleObjective
+  name: Hack the communications console
+  description: Planting a hacking beacon on the communications console on-station will allow us to contact more of our sleeper agents on-board.
+  components:
+  - type: Objective
+    difficulty: 1.5
+    icon:
+      sprite: Objects/Fun/Instruments/otherinstruments.rsi
+      state: red_phone
+  - type: SabotageCondition
+    whitelist:
+      components:
+      - CommunicationsConsole
