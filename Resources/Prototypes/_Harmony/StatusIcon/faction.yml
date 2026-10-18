@@ -21,3 +21,15 @@
   icon:
     sprite: /Textures/_Harmony/Interface/Misc/job_icons.rsi
     state: Conspirator
+
+- type: factionIcon
+  id: ConspiratorLeader
+  isShaded: true
+  priority: 11
+  showTo:
+    components:
+    - ShowAntagIcons
+    - Conspirator
+  icon:
+    sprite: /Textures/_Harmony/Interface/Misc/job_icons.rsi
+    state: ConspiratorLeader

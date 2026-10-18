@@ -47,10 +47,13 @@ public sealed partial class ConspiratorRuleSystem : GameRuleSystem<ConspiratorRu
                 ("username", data.UserName)));
         }
 
+        // Uncomment the following code if we ever revert to having multiple conspirator objectives. With only one, it's superfluous.
+        /*
         if (!_proto.TryIndex(component.Objective, out var objectiveProto))
             return;
-
+        
         args.AddLine(Loc.GetString("conspirator-objective", ("objective", objectiveProto.Name)));
+        */
     }
 
     private void OnGetBriefing(Entity<ConspiratorRoleComponent> ent, ref GetBriefingEvent args)
@@ -60,7 +63,10 @@ public sealed partial class ConspiratorRuleSystem : GameRuleSystem<ConspiratorRu
         var conspirators = AllEntityQuery<ConspiratorComponent>();
         while (conspirators.MoveNext(out var id, out _))
         {
-            args.Append(Loc.GetString("conspirator-name", ("name", Name(id))));
+            if (HasComp<ConspiratorLeaderComponent>(id))
+                args.Append(Loc.GetString("conspirator-leader-name", ("name", Name(id))));
+            else
+                args.Append(Loc.GetString("conspirator-name", ("name", Name(id))));
         }
 
         args.Append(Loc.GetString("conspirator-radio-implant"));

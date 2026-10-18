@@ -28,6 +28,12 @@ public sealed partial class ConspiratorSystem : SharedConspiratorSystem
                 return;
         }
 
+        if (TryComp<ConspiratorLeaderComponent>(entity, out var leaderComp) && _prototypeManager.TryIndex(leaderComp.ConspiratorLeaderIcon, out var leaderIconPrototype))
+        {
+            args.StatusIcons.Add(leaderIconPrototype);
+            return;
+        }
+
         if (_prototypeManager.TryIndex(entity.Comp.ConspiratorIcon, out var iconPrototype))
             args.StatusIcons.Add(iconPrototype);
     }

@@ -11,7 +11,7 @@ public sealed partial class ConspiratorRuleComponent : Component
 {
     [DataField]
     public EntProtoId? Objective = null;
-    
+
     [DataField]
-    public ProtoId<WeightedRandomPrototype> ObjectiveGroup = "ConspiratorObjectiveGroup";
+    public ProtoId<WeightedRandomPrototype>? ObjectiveGroup = null; // set to "ConspiratorObjectiveGroup" for randomised objectives, if we revert to that
 }

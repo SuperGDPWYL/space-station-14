@@ -12,6 +12,9 @@
         },
         {
             "name": "Conspirator"
+        },
+        {
+            "name": "ConspiratorLeader"
         }
     ]
 }

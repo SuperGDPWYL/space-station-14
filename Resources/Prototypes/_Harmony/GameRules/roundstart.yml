@@ -94,11 +94,18 @@
   - type: GameRule
     minPlayers: 28 # minimum of 4 conspirators
   - type: ConspiratorRule
+  - type: AntagObjectives
+    objectives: 
+    - ConspiratorDownfallObjective
+    - ConspiratorUniqueObjective
+    - ConspiratorMemorableObjective
   - type: AntagSelection
     lateJoinAdditional: true
     antags:
+    - !type:FixedAntagCount
+      proto: ConspiratorLeader
     - !type:LinearAntagCount
       proto: Conspirator
       range:
-        min: 4
-        max: 7
+        min: 3
+        max: 6

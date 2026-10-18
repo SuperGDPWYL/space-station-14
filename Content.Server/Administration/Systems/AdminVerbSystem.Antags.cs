@@ -253,12 +253,27 @@ public sealed partial class AdminVerbSystem
             Icon = new SpriteSpecifier.Rsi(new("/Textures/_Harmony/Interface/Misc/job_icons.rsi"), "Conspirator"),
             Act = () =>
             {
-                _antag.ForceMakeAntag<ConspiratorRuleComponent>(targetPlayer, DefaultConspiratorRule);
+                _antag.ForceMakeAntag<ConspiratorRuleComponent>(targetPlayer, DefaultConspiratorRule, "Conspirator");
             },
             Impact = LogImpact.High,
             Message = string.Join(": ", conspiratorName, Loc.GetString("admin-verb-make-conspirator")),
         };
         args.Verbs.Add(conspirator);
+
+        var conspiratorLeaderName = Loc.GetString("admin-verb-text-make-conspirator-leader");
+        Verb conspiratorLeader = new()
+        {
+            Text = conspiratorLeaderName,
+            Category = VerbCategory.Antag,
+            Icon = new SpriteSpecifier.Rsi(new("/Textures/_Harmony/Interface/Misc/job_icons.rsi"), "ConspiratorLeader"),
+            Act = () =>
+            {
+                _antag.ForceMakeAntag<ConspiratorRuleComponent>(targetPlayer, DefaultConspiratorRule, "ConspiratorLeader");
+            },
+            Impact = LogImpact.High,
+            Message = string.Join(": ", conspiratorLeaderName, Loc.GetString("admin-verb-make-conspirator-leader")),
+        };
+        args.Verbs.Add(conspiratorLeader);
         // Harmony end
     }
 }
